@@ -1,0 +1,32 @@
+# Secrets — never commit
+.env
+.env.*
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.uv/
+*.egg-info/
+
+# Notebooks & data scratch
+.ipynb_checkpoints/
+sandbox/
+data/raw/
+*.duckdb
+*.sqlite
+
+# Models & artifacts (too big for git)
+*.gguf
+*.safetensors
+models/
+checkpoints/
+adapters/
+runs.jsonl
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
