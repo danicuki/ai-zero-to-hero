@@ -22,6 +22,8 @@ The "**duck problem**": you know a bit of everything, nothing deeply. You *use* 
 
 If that's you — and you learn fast — this is built for you.
 
+**Experienced but afraid your experience is stale?** Read [`resources/what-transfers.md`](resources/what-transfers.md) — an honest audit of what transfers from a pre-LLM career, what genuinely decayed, what's actually new, and where your seniority will *work against you*.
+
 ---
 
 ## The North Star
@@ -111,6 +113,7 @@ plan/
 projects/
   README.md                   ← the portfolio of builds + capstone spec
 resources/
+  what-transfers.md           ← for the senior eng who fears their experience is worthless now
   providers.md                ← which model provider, and why (Gemini/Claude/local paths)
   papers.md                   ← the canon (read these)
   tools.md                    ← the stack (learn these)

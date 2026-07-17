@@ -40,16 +40,24 @@ The scoreboard for the whole program. Score each competency **1–5** on Day 0 (
 | 24 | Model serving, quantization, cost/latency (vLLM, local/on-device) | 2 | _ | `serving` |
 | **Production & leadership** |
 | 25 | Safety, prompt-injection defense, guardrails | 2 | _ | `SECURITY.md` |
-| 26 | Deploy & operate an AI service (AWS, observability, cost caps) | 2 | _ | deployed endpoint |
+| 26 | Deploy & operate an AI service (AWS, observability, cost caps) | 3 | _ | deployed endpoint |
 | 27 | Ship an end-to-end production agentic product | 1 | _ | `capstone` |
-| 28 | Architect & *lead* an AI initiative (design, trade-offs, "what good looks like") | 1 | _ | `DESIGN.md` |
+| 28 | Architect & *lead* an AI initiative (design, trade-offs, "what good looks like") | 2 | _ | `DESIGN.md` |
 
 ## Totals
 
 | | Day 0 | Day 30 |
 |-|:-----:|:------:|
-| **Sum (max 140)** | _ | _ |
-| **Avg** | _ | _ |
+| **Sum (max 140)** | **41** | _ |
+| **Avg** | **1.46** | _ |
+
+**Day-0 distribution:** 16 rows at `1`, 11 rows at `2`, 1 row at `3`.
+
+*(Recalibrated from a self-scored 39 on Day 0: row 26 `2→3` and row 28 `1→2`. Rationale: both rows have a transferable half — 25 years of deploy/observability/cost-control, and leading an 80-person org — that "never touched" misrepresents. The AI-specific half is genuinely new; the engineering half is not. Sandbagging the baseline would make the Day-30 delta measure confidence recovering rather than skill growing, and those must stay distinguishable. See [`resources/what-transfers.md`](../resources/what-transfers.md).)*
+
+**Day-0 by block** (avg): LLM foundations 1.33 · API & tooling 1.67 · Agents & harness **1.71** · Retrieval & data **1.00** · Evaluation **1.00** · Models train/serve 1.25 · Production & leadership 2.00
+
+**The diagnostic:** the 2s cluster exactly where you touch tools daily (API, Claude Code, agents) — you *use* them without owning them. The 1s cluster in **Retrieval, Evaluation, and Training** — Weeks 3 and 4. Note that **Evaluation is a clean sweep of 1s and is the target role's #2 headline responsibility.** Your weakest block is the role's most-wanted skill. That's not bad news; that's the highest-leverage 3 days in the program (D19–21).
 
 ## The honest verdict (write on Day 30)
 
