@@ -64,6 +64,7 @@
 
 **Deliverable:** upgraded `rag` + a `TOKEN-BUDGET.md` showing the reduction.
 **DoD:** you cut tokens per answer meaningfully without losing quality — and you can defend the trade-offs.
+**⭐ Stretch (do this if you have a 1M-token context model):** run the honest baseline almost nobody runs — **"just stuff the whole corpus into context" vs your RAG pipeline**, on quality, latency **and** cost. Find the crossover point where long-context stops winning. Knowing *exactly where that line sits* is a genuinely senior insight and the sharpest version of your token-efficiency goal.
 
 ---
 
@@ -72,6 +73,8 @@
 **Objective:** stop trusting vibes. Build the discipline the role calls first-class: golden datasets, metrics, a repeatable runner.
 
 **Theory (~1.5h):** why eval is hard for open-ended output; **golden datasets** (how to build one, how many examples); metric types (exact/fuzzy match, semantic similarity, task-specific); **LLM-as-judge** (and its biases — position, verbosity, self-preference); reference-free vs reference-based; offline eval vs online.
+
+> **🔴 Judge with a different model family than you generate with.** Self-preference bias is real and documented: judges favor their own family's output, and your scores quietly flatter you. This is the concrete payoff of Day 4's `Provider` protocol — swap the judge in one line. Cheap models (e.g. a Flash-Lite tier) are fine judges; use a **batch API** if you have one (often ~50% off) since you'll run the set repeatedly.
 
 **🔨 Build — an eval harness from scratch:**
 - Create a **golden dataset** (~30–50 examples) for one of your systems (the RAG, or the Day-7 extraction task).

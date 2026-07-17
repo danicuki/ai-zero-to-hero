@@ -13,8 +13,11 @@
 **Theory (~1.5h):** the decision tree — prompt → few-shot → RAG → fine-tune (in that order of cost/benefit); what fine-tuning *does* and *doesn't* fix (style/format/latency yes, new knowledge mostly no); **SFT** basics; **LoRA/QLoRA** (why parameter-efficient tuning works); dataset format (instruction/response); overfitting & catastrophic forgetting.
 
 **🔨 Build — your first fine-tune (LoRA/QLoRA):**
-- Take a small open model (e.g. **Qwen2.5-3B/7B** or **Llama-3.2-3B**) and SFT it with **LoRA** (Hugging Face `peft`/`trl`, or **Unsloth** for speed) on a small task-specific dataset you build (~200–500 examples) — e.g. "turn a messy transaction line into a structured category+memo" (domain-relevant).
+- Take a small open model — **Gemma 4** (Apache 2.0), Qwen, or Llama — and SFT it with **LoRA** (Hugging Face `peft`/`trl`, or **Unsloth** for ~2x speed / ~70% less memory) on a small task-specific dataset you build (~200–500 examples) — e.g. "turn a messy transaction line into a structured category+memo" (domain-relevant).
 - Run on Colab/Modal/Runpod if no local GPU. Track loss; save adapters.
+
+> **Google-path option:** **Vertex AI supervised tuning** gives you managed SFT on Gemini — and it uses **LoRA under the hood**, so the concept is the same. Do **both** if you can: the open-model run (you see every knob) *and* the managed run (you see what production ergonomics look like). Contrast them in your log — that comparison is exactly the "build vs buy" judgement a lead is paid for.
+> **Sovereignty angle:** only the open-model path (Gemma 4 + your own weights) gives you a model you fully own and can run on-device. Note the trade-off explicitly — it's a real column in your Day-26 decision.
 
 **Deliverable:** `projects/finetune/` with data prep, training script, and saved LoRA adapters.
 **DoD:** you trained a model, and you can state precisely *why* fine-tuning was (or wasn't) the right call vs RAG here.
@@ -43,7 +46,7 @@
 **Theory (~1.5h):** RLHF pipeline (SFT → reward model → PPO) at a conceptual level; **DPO** as the simpler, popular alternative (no separate reward model); preference-pair datasets; a nod to **GRPO**/RLVR for reasoning models. Understand the *shape* of RL post-training even if you don't run a full PPO loop.
 
 **🔨 Build — a DPO run:**
-- Build a small preference dataset (chosen vs rejected responses — can be bootstrapped with an LLM + your judge from Week 3) and run **DPO** (TRL `DPOTrainer`) on your SFT model.
+- Build a small preference dataset (chosen vs rejected responses — can be bootstrapped with an LLM + your judge from Week 3) and run **DPO** (TRL `DPOTrainer`) on your SFT model. *(Google path: **Vertex AI also supports DPO** as a managed tuning job — same trade-off as Day 22.)*
 - Evaluate: did aligning to your preferences improve the judge score on the traits you targeted (e.g. concise, correctly-formatted, no hallucinated fields)?
 
 **Deliverable:** `projects/finetune/dpo/` + before/after judge scores.
@@ -70,7 +73,9 @@
 
 **Objective:** make a model actually servable — fast, cheap, and yours (sovereignty).
 
-**Theory (~1.5h):** inference basics (prefill vs decode, batching, KV-cache, throughput vs latency); **vLLM** (paged attention, continuous batching); **quantization** (GGUF/AWQ/GPTQ, int8/int4) and its quality trade-off; local/on-device serving (**Ollama**, **llama.cpp**, MLX on Apple Silicon — aligns with on-device sovereignty); when self-hosting beats an API on cost.
+**Theory (~1.5h):** inference basics (prefill vs decode, batching, KV-cache, throughput vs latency); **vLLM** (paged attention, continuous batching, runtime LoRA adapter loading); **quantization** (GGUF/AWQ/GPTQ, int8/int4) and its quality trade-off; local/on-device serving (**Ollama**, **llama.cpp**, MLX on Apple Silicon — aligns with on-device sovereignty); speculative decoding / MTP drafters; when self-hosting beats an API on cost.
+
+> **Heads-up (a real trap worth hitting):** vLLM + LoRA adapters has known sharp edges — vLLM doesn't apply LoRA to every target module (e.g. `embed_tokens`/`lm_head`) the way `transformers` does, so an adapter that leans on those layers **silently diverges** from your training-time results. If your served model scores worse than your notebook did, look here first. Catching this is exactly why you keep the eval harness pointed at the *served* endpoint, not just the local model.
 
 **🔨 Build — serve your model, measure the economics:**
 - Serve your fine-tuned/base model with **vLLM** (or llama.cpp/Ollama locally). Hit it with a load test; measure **tokens/sec, p50/p95 latency, and $/1M tokens** at your hardware cost.

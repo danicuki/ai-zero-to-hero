@@ -67,7 +67,8 @@ By Day 30 you can, without hand-waving:
 
 - Comfortable in a terminal, git, Docker, and at least one language deeply. **Python** is the working language here; if it's rusty, W1 D0 has a fast-refresh path.
 - A machine that can run local models is a plus (Apple Silicon / a decent GPU). Cloud GPUs (Modal, Runpod, Colab) cover the fine-tuning days if not.
-- Budget: expect **~$50–150** in API + GPU credits across the month. Frugality is part of the curriculum.
+- Budget: expect **~$50–150** in API + GPU credits across the month — much less if you have free credits from a provider (see [`resources/providers.md`](resources/providers.md)) or lean on local models. Frugality is part of the curriculum.
+- **Provider:** pick a primary (Gemini-first, Claude-first, and local-first paths are all supported) but stay **multi-provider** — it's a requirement of the role, not a preference. Day 4 builds the abstraction that makes it cheap.
 
 ## 7. How to adapt the pace
 

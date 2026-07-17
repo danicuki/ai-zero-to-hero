@@ -12,7 +12,8 @@
 
 **Objective:** zero friction for the next 30 days, and an honest baseline.
 
-- [ ] Accounts & keys: **Anthropic API**, OpenAI (for comparison), a **Hugging Face** account, and one GPU option (Google Colab / Modal / Runpod). Put keys in a `.env`, never commit them.
+- [ ] **Choose your primary provider** → read [`resources/providers.md`](../resources/providers.md) first. Gemini-first, Claude-first, and local-first paths are all fully supported. Have Google credits/GDE? **Go Gemini + Gemma** — it covers all 4 weeks end to end.
+- [ ] Accounts & keys: your **primary provider** key, **one secondary** (for cross-provider work — a second API, or free local via Ollama), a **Hugging Face** account, and one GPU option (Google Colab / Modal / Runpod). Put keys in a `.env`, never commit them.
 - [ ] Python env: install **`uv`** (fast package manager). `uv init`, Python 3.12, and a `sandbox/` scratch dir.
 - [ ] Install/upgrade **Claude Code**. Confirm you can run it in this repo.
 - [ ] Local models: install **Ollama**, pull `llama3.2` and `qwen2.5:7b`. Confirm `ollama run` works.
@@ -71,25 +72,33 @@
 
 ---
 
-## Day 4 — The Claude API, deeply (the real workhorse)
+## Day 4 — The model API, deeply (the real workhorse)
 
-**Objective:** move from "I call a model" to "I command the model": messages, system prompts, streaming, **tool use**, **structured outputs**, **extended thinking**, **prompt caching**, stop reasons, token accounting.
+**Objective:** move from "I call a model" to "I command the model": messages, system prompts, streaming, **tool use**, **structured outputs**, **thinking**, **context/prompt caching**, stop reasons, token accounting.
 
-**Theory (~1h):** Read the Anthropic Messages API, tool use, and prompt-caching docs end to end. Note the exact shapes of tool-use / tool-result blocks — you'll rebuild these next week.
+**Theory (~1h):** Read your primary provider's core docs end to end — the messages/generate API, **tool use / function calling**, **structured output**, and **caching**. Note the exact shapes of tool-call / tool-result blocks; you'll rebuild these next week.
+*(Gemini: function calling, `response_schema`, implicit context caching, thinking budgets. Claude: Messages API, tool use, prompt caching, extended thinking.)*
 
 **🔨 Build — `askctl`, a proper API client library (no SDK sugar hidden from you):**
-- Wrap the Messages API with: streaming to the terminal, a **tool-use loop** (define 2 tools — a calculator and a `get_weather` mock — and handle the request/result round-trip yourself), **structured output** via a Pydantic schema, and **prompt caching** on a large system prompt.
-- Instrument it: every call logs input/output/cache tokens and computed cost to a local `runs.jsonl`.
+- Wrap the API with: streaming to the terminal, a **tool-use loop** (define 2 tools — a calculator and a `get_weather` mock — and handle the request/result round-trip yourself), **structured output** via a Pydantic schema, and **caching** on a large system prompt.
+- Instrument it: every call logs input/output/cached tokens and computed cost to a local `runs.jsonl`.
 
-**Deliverable:** `projects/askctl/` — a reusable client you'll build on all month.
-**DoD:** you've completed a full tool-use round-trip *by hand*, and your logs show a cache hit reducing cost on a repeat call.
-**⭐ Stretch:** add the same interface for OpenAI and a local Ollama model behind one abstraction (a `Provider` protocol). This becomes your multi-provider layer for later.
+**🔴 Build (mandatory) — the `Provider` protocol:**
+- Put **your primary + one secondary** behind **one interface** (secondary can be a free local Gemma/Qwen via Ollama). Normalize tool-call shape, token accounting, cost, and streaming.
+- Everything downstream this month (`miniagent`, `rag`, `evals`) targets this interface — **never a vendor SDK**.
+- *Why mandatory:* the target role says "model providers" (plural); W3's A/B harness needs something to compare; your LLM-judge must be a different family than your generator (self-preference bias); and models get deprecated mid-program. **The normalization pain is the lesson** — it teaches you how these systems actually differ. See [`resources/providers.md`](../resources/providers.md).
+
+**Deliverable:** `projects/askctl/` — a reusable multi-provider client you'll build on all month.
+**DoD:** you've completed a full tool-use round-trip *by hand*; your logs show a cache hit reducing cost; and **the same agent task runs against both providers by changing one line**.
+**⭐ Stretch:** add a third provider and a cost/latency-based router that picks the model per task.
 
 ---
 
 ## Day 5 — Claude Code mastery, part 1 (stop leaving power on the table)
 
 **Objective:** exploit the tool you already use daily. Most people use 20% of it.
+
+> **Provider note:** Days 5–6 stay on **Claude Code regardless of your primary model provider**. This is a *tool-mastery* goal (subagents, skills, hooks, MCP, plan mode), not a model choice — swapping to another CLI dodges the gap instead of closing it. Whatever agent harness you live in daily, master it to the bottom. (Comparing it to a rival CLI is a fine ⭐stretch.)
 
 **Theory/hands-on (~2h):** work through the Claude Code docs deliberately, trying each feature in *this* repo:
 - **Plan mode**, thinking, and when to use each.

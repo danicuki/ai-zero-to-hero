@@ -59,6 +59,7 @@ Target **~6 focused hours**. Adjust the block sizes, never skip the *Build* or t
 | ✍️ **Log** | ~0.5h | Fill the [daily log](daily-log/TEMPLATE.md): what I built, what confused me, what I'll ask my mentor. |
 
 **Rules of engagement**
+0. **Provider-agnostic by design.** Pick a primary (Gemini, Claude, or local — see [`resources/providers.md`](resources/providers.md)), but build behind an abstraction and stay multi-provider. Every concept here transfers; only the SDK changes.
 1. **Build first, framework second.** Reach for LangGraph/LlamaIndex *only after* you've built the primitive by hand.
 2. **Everything is committed.** Green squares are your streak. A day without a push didn't happen.
 3. **Write to understand.** Every day ends with a log entry. Confusion logged today is a question for tomorrow.
@@ -110,6 +111,7 @@ plan/
 projects/
   README.md                   ← the portfolio of builds + capstone spec
 resources/
+  providers.md                ← which model provider, and why (Gemini/Claude/local paths)
   papers.md                   ← the canon (read these)
   tools.md                    ← the stack (learn these)
   reading.md                  ← courses, blogs, docs

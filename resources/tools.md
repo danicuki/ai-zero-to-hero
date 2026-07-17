@@ -7,10 +7,14 @@ Aligned to the target role's named stack: **Python, agentic frameworks, evaluati
 - **Ruff** (lint/format), **pytest** (yes, test your AI code), **Docker**.
 
 ## Model providers & clients
-- **Anthropic SDK / Claude API** — primary. Tool use, prompt caching, extended thinking, structured output.
-- OpenAI SDK — for comparison and the multi-provider abstraction.
-- **Ollama** — run local models trivially (Day 0 onward).
+> **Pick a primary, but stay multi-provider.** See [`providers.md`](providers.md) for the full strategy and the Gemini-first / Claude-first / local-first paths.
+
+- **Google Gemini SDK** (`google-genai`) — function calling, `response_schema` structured output, implicit context caching, thinking budgets, MCP support, Batch API (50% off). **Gemini 3.5 Flash** as the workhorse, **3.1 Pro** for hard reasoning, **2.5 Flash-Lite** for cheap bulk/judge passes.
+- **Anthropic SDK / Claude API** — tool use, prompt caching, extended thinking, structured output.
+- OpenAI SDK — the third point of comparison.
+- **Ollama** — run local models trivially, and your *free* secondary provider (Day 0 onward).
 - OpenRouter — one API across many models, handy for cheap comparison.
+- ⚠️ **Models get deprecated mid-flight** (e.g. Gemini 2.5 Flash EOL Oct 16, 2026). Your Day-4 `Provider` abstraction is what turns that into a config change.
 
 ## Agent building
 - **Build-your-own first** (Week 2) — no framework.
@@ -34,8 +38,10 @@ Aligned to the target role's named stack: **Python, agentic frameworks, evaluati
 
 ## Training & fine-tuning
 - **Hugging Face** — `transformers`, `datasets`, `peft` (LoRA), **`trl`** (SFT/DPO trainers). The backbone of Week 4.
-- **Unsloth** — 2–5x faster/cheaper LoRA fine-tuning on a single GPU. Great for Days 22–24.
+- **Unsloth** — ~2x faster / ~70% less memory LoRA fine-tuning on a single GPU; natively supports current Gemma sizes. Great for Days 22–24.
 - **Axolotl** — config-driven fine-tuning if you want less code.
+- **Vertex AI tuning** — *managed* SFT **and DPO** on Gemini (LoRA under the hood). The "buy" side of Day 22's build-vs-buy comparison.
+- Open models to tune: **Gemma 4** (Apache 2.0, Apr 2026), Qwen, Llama.
 - GPU compute: **Google Colab** (free-ish), **Modal** (serverless GPU, lovely DX), **Runpod**/**Lambda** (cheap rentals).
 
 ## Serving & inference
