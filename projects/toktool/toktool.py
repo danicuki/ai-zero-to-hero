@@ -37,8 +37,6 @@ def count_tokens(client: genai.Client, model: str, text: str) -> int:
 
     TODO(day-1): implement me with the Gemini count_tokens API.
     """
-    client = genai.Client()
-
     total_tokens = client.models.count_tokens(
         model=model,
         contents=text
