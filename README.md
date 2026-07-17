@@ -63,10 +63,12 @@ Target **~6 focused hours**. Adjust the block sizes, never skip the *Build* or t
 **Rules of engagement**
 0. **Provider-agnostic by design.** Pick a primary (Gemini, Claude, or local — see [`resources/providers.md`](resources/providers.md)), but build behind an abstraction and stay multi-provider. Every concept here transfers; only the SDK changes.
 1. **Build first, framework second.** Reach for LangGraph/LlamaIndex *only after* you've built the primitive by hand.
-2. **Everything is committed.** Green squares are your streak. A day without a push didn't happen.
-3. **Write to understand.** Every day ends with a log entry. Confusion logged today is a question for tomorrow.
-4. **Ship ugly, then refine.** A working ugly thing beats a beautiful plan.
-5. **Measure tokens & cost.** Every build reports its token usage and $ cost. Frugality is a skill here.
+2. **The agent may never write the thing the day is designed to teach.** Use coding agents heavily for scaffolding and as a tutor — never for the day's load-bearing concept. See [`resources/using-agents.md`](resources/using-agents.md).
+3. **Everything is committed.** Green squares are your streak. A day without a push didn't happen.
+4. **Write to understand.** Every day ends with a log entry. Confusion logged today is a question for tomorrow.
+5. **Ship ugly, then refine.** A working ugly thing beats a beautiful plan.
+6. **Measure tokens & cost.** Every build reports its token usage and $ cost. Frugality is a skill here.
+7. **Could you delete it and rewrite it from memory?** If not, you supervised it — you didn't learn it.
 
 ---
 
@@ -113,6 +115,7 @@ plan/
 projects/
   README.md                   ← the portfolio of builds + capstone spec
 resources/
+  using-agents.md             ← where the line is: what you write vs what the agent writes
   what-transfers.md           ← for the senior eng who fears their experience is worthless now
   providers.md                ← which model provider, and why (Gemini/Claude/local paths)
   papers.md                   ← the canon (read these)
