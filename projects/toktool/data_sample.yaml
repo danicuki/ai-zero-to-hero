@@ -1,0 +1,34 @@
+meta:
+  dataset: coastal-station-network
+  version: 4.2.1
+  station_count: 2
+  quality_controlled: true
+stations:
+- id: ALD-001
+  name: Cape Aldren Light
+  active: true
+  elevation_m: 41
+  tags:
+  - tidal
+  - reference
+  coordinates:
+    lat: 63.8412
+    lon: -21.9337
+  sensor:
+    type: anemometer
+    unit: m/s
+    accuracy: 0.15
+- id: BRN-114
+  name: Brenmouth Pier
+  active: false
+  elevation_m: 7
+  tags:
+  - tidal
+  - urban
+  coordinates:
+    lat: 54.2201
+    lon: -1.4188
+  sensor:
+    type: tide-gauge
+    unit: m
+    accuracy: 0.02
