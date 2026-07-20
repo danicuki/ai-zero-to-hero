@@ -67,7 +67,7 @@ def main(
     ),
     model: str = typer.Option(DEFAULT_MODEL, "--model", "-m", help=f"One of: {', '.join(PRICING)}"),
     out_tokens: int = typer.Option(500, "--out", help="Assumed output tokens, for the cost estimate."),
-    compare: bool = typer.Option(False, "--compare", help="Compare tokenization algorithms."),
+    compare: bool = typer.Option(True, "--compare", help="Compare tokenization algorithms."),
 ) -> None:
     if model not in PRICING:
         raise typer.BadParameter(f"unknown model {model!r}; known: {', '.join(PRICING)}")
