@@ -93,7 +93,7 @@ def main(
 
     # Tokenizition colors:
     enc = tiktoken.get_encoding("o200k_base")
-    ids = enc.encode(text)
+    ids = enc.encode(content)
     pieces = [enc.decode([i]) for i in ids]   # ← the substrings YOU then render
     for i, piece in enumerate(pieces):
         style = "black on cyan" if i % 2 else "black on magenta"
