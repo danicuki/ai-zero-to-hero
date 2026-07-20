@@ -1,4 +1,4 @@
-# Day NN — <title>
+# Day 01 — Tokenizers
 
 **Date:** YYYY-MM-DD · **Hours:** _ · **Streak:** __/30
 
@@ -26,7 +26,9 @@ Learning tokenizers - how they work and different tokenizers for different model
 - [x] Log written
 
 ## 😵 What confused me / where I got stuck
-Nothing besides still strugling a bit with python
+- still strugling a bit with python
+- understanding the 'why' behind tokenization, not only what's - initially I was just looking at raw numbers and visual evidences, not thinking about the consequences of different tokenization results on practical responses. 
+- learning that gemini api doesn't expose tokens separation.
 
 ## ❓ Questions for my mentor
 No question for now
