@@ -13,8 +13,6 @@ from typing import Optional
 import typer
 import tiktoken
 
-from tiktoken._educational import *
-
 from dotenv import load_dotenv
 from google import genai
 from rich.console import Console
@@ -69,6 +67,7 @@ def main(
     ),
     model: str = typer.Option(DEFAULT_MODEL, "--model", "-m", help=f"One of: {', '.join(PRICING)}"),
     out_tokens: int = typer.Option(500, "--out", help="Assumed output tokens, for the cost estimate."),
+    compare: bool = typer.Option(False, "--compare", help="Compare tokenization algorithms."),
 ) -> None:
     if model not in PRICING:
         raise typer.BadParameter(f"unknown model {model!r}; known: {', '.join(PRICING)}")
@@ -92,13 +91,22 @@ def main(
     console.print(table)
 
     # Tokenizition colors:
-    enc = tiktoken.get_encoding("o200k_base")
+    if compare:
+        print_model("o200k_base", content)
+        print_model("gpt2", content)
+
+def print_model(algo, content):
+    enc = tiktoken.get_encoding(algo)
     ids = enc.encode(content)
     pieces = [enc.decode([i]) for i in ids]   # ← the substrings YOU then render
+    console.print(f"---------------\nModel: {algo}")
+    console.print(f"Token count: {len(ids)}")
     for i, piece in enumerate(pieces):
         style = "black on cyan" if i % 2 else "black on magenta"
         console.print(piece, style=style, end="")
     console.print()  # trailing newline
+
+
 
 
 if __name__ == "__main__":
