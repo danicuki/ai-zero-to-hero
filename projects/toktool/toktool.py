@@ -11,6 +11,10 @@ from pathlib import Path
 from typing import Optional
 
 import typer
+import tiktoken
+
+from tiktoken._educational import *
+
 from dotenv import load_dotenv
 from google import genai
 from rich.console import Console
@@ -34,8 +38,6 @@ DEFAULT_MODEL = "gemini-3.5-flash"
 
 def count_tokens(client: genai.Client, model: str, text: str) -> int:
     """Return the number of input tokens `model` will see for `text`.
-
-    TODO(day-1): implement me with the Gemini count_tokens API.
     """
     total_tokens = client.models.count_tokens(
         model=model,
@@ -88,6 +90,15 @@ def main(
         f"${estimate_cost(model, n, out_tokens, cached=True):.6f}",
     )
     console.print(table)
+
+    # Tokenizition colors:
+    enc = tiktoken.get_encoding("o200k_base")
+    ids = enc.encode(text)
+    pieces = [enc.decode([i]) for i in ids]   # ← the substrings YOU then render
+    for i, piece in enumerate(pieces):
+        style = "black on cyan" if i % 2 else "black on magenta"
+        console.print(piece, style=style, end="")
+    console.print()  # trailing newline
 
 
 if __name__ == "__main__":
