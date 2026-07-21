@@ -16,8 +16,9 @@ Create my own nanogpt in Python using a char tokenizer
 
 ## ✅ Definition of Done
 - [ ] Met today's DoD (see the day's plan)
-- [ ] Committed & pushed
-- [ ] Log written
+  - [x] write the initial version of model, looking only at bigram (only uses last char to predict next) 
+- [x] Committed & pushed
+- [x] Log written
 
 ## 😵 What confused me / where I got stuck
  - Python doesn't have tail recursion like Elixir. In Python, use for loops instead of recursion.
@@ -32,4 +33,5 @@ Create my own nanogpt in Python using a char tokenizer
 <anything unfinished or to revisit>
 
 ## 💡 One insight I don't want to forget
+ - bigram is interestion and enough to create Portuguese-like text, but it is still nonsense text, because it looks only at last char, with no broader context memory.
 <the keeper>
