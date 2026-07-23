@@ -18,7 +18,6 @@ block_size = 64
 n_embd = 192
 n_layer = 4
 num_heads = 4
-dropout = 0.2
 
 # common hyperparameters
 max_iters = 2500
