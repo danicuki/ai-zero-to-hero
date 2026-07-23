@@ -9,7 +9,15 @@ block_size = 256
 max_iters = 5000
 eval_interval = 50
 learning_rate = 3e-4
-device = 'mps' # if torch.cuda.is_available() else 'cpu'
+
+if torch.cuda.is_available():
+    device = 'cuda'
+elif torch.backends.mps.is_available():
+    device = 'mps'
+else:
+    device = 'cpu'
+print(f"using device: {device}")
+
 eval_iters = 200
 n_embd = 384
 n_layer = 6
@@ -73,7 +81,7 @@ class Head(nn.Module):
         B,T,C = x.shape
         k = self.key(x)   # (B,T,C)
         q = self.query(x) # (B,T,C)
-        wei = q @ k.transpose(-2,-1) * C**-0.5 # (B,T,C) @ (B,C,T) -> (B,T,T)
+        wei = q @ k.transpose(-2,-1) * k.shape[-1]**-0.5 # (B,T,C) @ (B,C,T) -> (B,T,T)
         wei = wei.masked_fill(self.tril[:T,:T] == 0, float('-inf')) # (B,T,T)
         wei = F.softmax(wei, dim=-1) # (B,T,T)
         wei = self.dropout(wei)
@@ -180,7 +188,7 @@ logits, loss = model(xb, None)
 print(logits.shape)
 
 
-idx = torch.zeros((1,1), dtype=torch.long)
+idx = torch.zeros((1,1), dtype=torch.long, device=device)
 print(decode(model.generate(idx, max_new_tokens=100)[0].tolist()))
 
 optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
