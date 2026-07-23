@@ -4,10 +4,27 @@ import torch
 import torch.nn as nn
 from torch.nn import functional as F
 
-batch_size = 64
-block_size = 256
-max_iters = 5000
-eval_interval = 50
+#large language model (LLM) hyperparameters
+# batch_size = 64
+# block_size = 128
+# n_embd = 256
+# n_layer = 6
+# num_heads = 8
+# dropout = 0.3
+
+# small 
+batch_size = 32
+block_size = 64
+n_embd = 192
+n_layer = 4
+num_heads = 4
+dropout = 0.2
+
+# common hyperparameters
+max_iters = 2500
+eval_interval = 500
+dropout = 0.3
+eval_iters = 200
 learning_rate = 3e-4
 
 if torch.cuda.is_available():
@@ -17,12 +34,6 @@ elif torch.backends.mps.is_available():
 else:
     device = 'cpu'
 print(f"using device: {device}")
-
-eval_iters = 200
-n_embd = 384
-n_layer = 6
-num_heads = 6
-dropout = 0.2
 
 with open('paratodos.txt', 'r', encoding='utf-8') as f:
     text = f.read()
@@ -193,7 +204,6 @@ print(decode(model.generate(idx, max_new_tokens=100)[0].tolist()))
 
 optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
 
-batch_size = 32
 print(f'tranining {max_iters} steps...')
 for steps in range(max_iters):
     xb, yb = get_batch('train')
